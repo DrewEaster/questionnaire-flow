@@ -58,6 +58,7 @@ class ConsoleRunnerTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
   }
 
+  // TEST DATA
   val question1 = Question(QuestionId(1), "What's your name?", FreeTextType)
   val question2 = Question(QuestionId(2), "How old are you?", FreeTextType)
   val question3 = Question(QuestionId(3), "Enter your pet please", FreeTextType)
