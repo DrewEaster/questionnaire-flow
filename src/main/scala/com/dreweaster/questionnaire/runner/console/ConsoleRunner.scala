@@ -24,7 +24,7 @@ class ConsoleRunner(console: Console) extends QuestionnaireRunner {
         val answer = collectAnswer(question)
         answers + (question.id -> answer) ++ run(next, Some(answer))
       case DecisionBlock(decision, yes, no) =>
-        decision.run(previousAnswer.get) match {
+        decision.rule(previousAnswer.get) match {
           case Right(Yes) => answers ++ run(yes, previousAnswer)
           case Right(No) => answers ++ run(no, previousAnswer)
           case Left(ex) => throw ex
