@@ -22,14 +22,15 @@ object Main extends App with QuestionnaireFlowBuilder {
   }
 
   // Declaratively connect the constituent steps into a flow using a basic DSL
-  val questionnaire = question(question1) {
-    question(question2) {
-      decision(isOver18)(
-        yes = question(question4),
-        no = question(question3)
-      )
+  val questionnaire =
+    question(question1) {
+      question(question2) {
+        decision(isOver18)(
+          yes = question(question4),
+          no = question(question3)
+        )
+      }
     }
-  }
 
   // Use a ConsoleRunner to materialise the questionnaire flow
   val answers = RealConsoleRunner.run(questionnaire).foreach { kv =>
