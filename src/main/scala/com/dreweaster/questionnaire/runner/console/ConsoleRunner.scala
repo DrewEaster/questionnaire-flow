@@ -17,16 +17,16 @@ object RealConsole extends Console {
 }
 
 class ConsoleRunner(console: Console) extends QuestionnaireRunner {
-  def run(questionnaire: QuestionnaireBlock, previousQuestion: Option[Question] = None, previousAnswer: Option[String] = None) = {
+  def run(questionnaire: QuestionnaireBlock, previousAnswer: Option[String] = None) = {
     val answers = Map[QuestionId, String]()
     questionnaire match {
       case QuestionBlock(question, next) =>
         val answer = collectAnswer(question)
-        answers + (question.id -> answer) ++ run(next, Some(question), Some(answer))
+        answers + (question.id -> answer) ++ run(next, Some(answer))
       case DecisionBlock(decision, yes, no) =>
         decision.run(previousAnswer.get) match {
-          case Right(Yes) => answers ++ run(yes, previousQuestion, previousAnswer)
-          case Right(No) => answers ++ run(no, previousQuestion, previousAnswer)
+          case Right(Yes) => answers ++ run(yes, previousAnswer)
+          case Right(No) => answers ++ run(no, previousAnswer)
           case Left(ex) => throw ex
         }
       case EndBlock => answers

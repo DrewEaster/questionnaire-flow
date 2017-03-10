@@ -4,5 +4,5 @@ import com.dreweaster.questionnaire.flow.QuestionnaireFlowBuilder.{EndBlock, Dec
 import com.dreweaster.questionnaire.model.{No, Yes, QuestionId, Question}
 
 trait QuestionnaireRunner {
-  def run(questionnaire: QuestionnaireBlock, previousQuestion: Option[Question] = None, previousAnswer: Option[String] = None): Map[QuestionId, String]
+  def run(questionnaire: QuestionnaireBlock, previousAnswer: Option[String] = None): Map[QuestionId, String]
 }
