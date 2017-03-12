@@ -1,6 +1,7 @@
 package com.dreweaster.questionnaire.runner.console
 
 import com.dreweaster.questionnaire.Main._
+import com.dreweaster.questionnaire.model.Rules.greaterThanOrEqualTo
 import com.dreweaster.questionnaire.model._
 import org.scalatest._
 
@@ -30,9 +31,9 @@ class ConsoleRunnerTest extends FeatureSpec with GivenWhenThen with Matchers {
       val answers = new ConsoleRunner(testInputs).run(questionnaire)
 
       Then("the questionnaire flow should follow the yes branch")
-      answers.get(question1.id) should be (Some("Andrew"))
-      answers.get(question2.id) should be (Some("18"))
-      answers.get(question4.id) should be (Some("Yes"))
+      answers.get(question1.id) should be(Some("Andrew"))
+      answers.get(question2.id) should be(Some("18"))
+      answers.get(question4.id) should be(Some("Yes"))
     }
 
     scenario("Follow no branch") {
@@ -52,9 +53,9 @@ class ConsoleRunnerTest extends FeatureSpec with GivenWhenThen with Matchers {
       val answers = new ConsoleRunner(testInputs).run(questionnaire)
 
       Then("the questionnaire flow should follow the no branch")
-      answers.get(question1.id) should be (Some("Andrew"))
-      answers.get(question2.id) should be (Some("17"))
-      answers.get(question3.id) should be (Some("Teddy"))
+      answers.get(question1.id) should be(Some("Andrew"))
+      answers.get(question2.id) should be(Some("17"))
+      answers.get(question3.id) should be(Some("Teddy"))
     }
   }
 
@@ -63,13 +64,7 @@ class ConsoleRunnerTest extends FeatureSpec with GivenWhenThen with Matchers {
   val question2 = Question(QuestionId(2), "How old are you?", FreeTextType)
   val question3 = Question(QuestionId(3), "Enter your pet please", FreeTextType)
   val question4 = Question(QuestionId(4), "Do you have a driving license?", BooleanType)
-  val isOver18 = Decision { answer =>
-    Try(answer.toInt) match {
-      case Success(age) if age >= 18 => Right(Yes)
-      case Success(age) => Right(No)
-      case Failure(ex) => Left(ex)
-    }
-  }
+  val isOver18 = Decision(greaterThanOrEqualTo(18))
 
   class FakeConsole(var inputs: Seq[String]) extends Console {
     override def write(text: String) = {
@@ -82,4 +77,5 @@ class ConsoleRunnerTest extends FeatureSpec with GivenWhenThen with Matchers {
       input
     }
   }
+
 }
