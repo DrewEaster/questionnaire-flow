@@ -29,7 +29,7 @@ class ConsoleRunnerTest extends FeatureSpec with GivenWhenThen with Matchers {
       val testInputs = new FakeConsole(List("Andrew", "18", "Yes"))
       val answers = new ConsoleRunner(testInputs).run(questionnaire)
 
-      Then("the questionnaire flow should follow the no branch")
+      Then("the questionnaire flow should follow the yes branch")
       answers.get(question1.id) should be (Some("Andrew"))
       answers.get(question2.id) should be (Some("18"))
       answers.get(question4.id) should be (Some("Yes"))
