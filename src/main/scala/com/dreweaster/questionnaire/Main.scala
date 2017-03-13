@@ -19,7 +19,7 @@ object Main extends App with QuestionnaireFlowBuilder {
   val questionnaire =
     question(question1) {
       question(question2) {
-        decision(isOver18.onAnswerFrom(question2))(
+        decision(isOver18 onAnswerFrom question2)(
           yes = question(question4),
           no = question(question3)
         )
