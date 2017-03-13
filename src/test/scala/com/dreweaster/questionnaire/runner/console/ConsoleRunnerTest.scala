@@ -5,8 +5,6 @@ import com.dreweaster.questionnaire.model.Rules.greaterThanOrEqualTo
 import com.dreweaster.questionnaire.model._
 import org.scalatest._
 
-import scala.util.{Failure, Success, Try}
-
 class ConsoleRunnerTest extends FeatureSpec with GivenWhenThen with Matchers {
 
   info("As a questionnaire creator")
@@ -19,7 +17,7 @@ class ConsoleRunnerTest extends FeatureSpec with GivenWhenThen with Matchers {
       Given("a questionnaire flow with a decision step")
       val questionnaire = question(question1) {
         question(question2) {
-          decision(isOver18)(
+          decision(isOver18.onAnswerFrom(question2))(
             yes = question(question4),
             no = question(question3)
           )
@@ -41,7 +39,7 @@ class ConsoleRunnerTest extends FeatureSpec with GivenWhenThen with Matchers {
       Given("a questionnaire flow with a decision step")
       val questionnaire = question(question1) {
         question(question2) {
-          decision(isOver18)(
+          decision(isOver18.onAnswerFrom(question2))(
             yes = question(question4),
             no = question(question3)
           )

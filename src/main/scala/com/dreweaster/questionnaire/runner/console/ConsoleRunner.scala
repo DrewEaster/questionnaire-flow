@@ -17,19 +17,18 @@ object RealConsole extends Console {
 }
 
 class ConsoleRunner(console: Console) extends QuestionnaireRunner {
-  def run(questionnaire: QuestionnaireBlock, previousAnswer: Option[String] = None) = {
-    val answers = Map[QuestionId, String]()
+  def run(questionnaire: QuestionnaireBlock, previousAnswers: Map[QuestionId, String]): Map[QuestionId, String] = {
     questionnaire match {
       case QuestionBlock(question, next) =>
         val answer = collectAnswer(question)
-        answers + (question.id -> answer) ++ run(next, Some(answer))
-      case DecisionBlock(decision, yes, no) =>
-        decision.rule(previousAnswer.get) match {
-          case Right(Yes) => answers ++ run(yes, previousAnswer)
-          case Right(No) => answers ++ run(no, previousAnswer)
+        run(next, previousAnswers + (question.id -> answer))
+      case DecisionBlock(decisionMapping, yes, no) =>
+        decisionMapping.decision.rule(previousAnswers(decisionMapping.applyToAnswerFrom.id)) match {
+          case Right(Yes) => run(yes, previousAnswers)
+          case Right(No) => run(no, previousAnswers)
           case Left(ex) => throw ex
         }
-      case EndBlock => answers
+      case EndBlock => previousAnswers
     }
   }
 
